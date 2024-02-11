@@ -1,0 +1,123 @@
+/* style.css */
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#wrapper {
+    display: flex;
+    height: 100vh; /* Full height of the viewport */
+}
+
+/* SideBar */
+#sidebar {
+    width: 20%;
+    background-color: #f0f0f0; /* Light grey background */
+    padding: 20px;
+    position: relative;
+}
+
+#sidebar h2 {
+    margin-top: 0;
+    padding: 10px;
+    color: #007bff; /* Adjust the color as per your theme */
+    text-align: center;
+}
+
+/* Styling for the sidebar buttons */
+#sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#sidebar ul li a {
+    text-decoration: none;
+    color: black;
+    display: block;
+    padding: 10px;
+}
+
+#sidebar ul li a:hover {
+    background-color: #ddd; /* Light grey background on hover */
+}
+
+/* Buttons */
+.sidebar-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0; /* Adds spacing between buttons */
+    background-color: #f0f0f0; /* Light grey, adjust as needed */
+    border: 1px solid #ddd; /* Slight border, adjust as needed */
+    cursor: pointer;
+    text-align: center; /* Centers text within each button */
+}
+
+.sidebar-btn:hover {
+    background-color: #ddd; /* Slightly darker grey on hover */
+}
+
+#filter-buttons {
+    display: none; /* Hide buttons initially */
+}
+
+/* Github Link */
+#github-link {
+    position: absolute;
+    bottom: 20px; /* Adjust as needed to position from the bottom */
+    left: 50%; /* Start at the middle of the sidebar */
+    transform: translateX(-50%); /* Shift it back to truly center it */
+    width: auto; /* Auto width based on content size, or specify a width */
+    text-align: center; /* Ensure the text itself is centered in the link */
+}
+
+#github-link a {
+    color: #007bff; /* Theme color */
+    text-decoration: none; /* Personal preference */
+}
+
+#github-link a:hover {
+    text-decoration: underline;
+}
+
+/* Main Content */
+#main-content {
+    width: 80%;
+    padding: 20px;
+}
+
+#image-upload-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100%; /* Ensure it has a height to work with flexbox centering */
+    text-align: center; /* Center text for browsers that don't support flexbox */
+}
+
+.img-uploaded {
+    max-height: 90vh; /* 90% of the viewport height */
+    max-width: 90%; /* 90% of the width of its container */
+}
+
+#drop-zone {
+    border: 2px dashed #007bff; /* Dashed border */
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    color: #007bff;
+}
+
+#drop-zone:hover {
+    background-color: #f0f0f0; /* Light grey background on hover */
+}
+
+#image-upload-container img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
+}
+
+
+
