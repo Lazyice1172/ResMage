@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var formData = new FormData();
             formData.append('file', file);
 
-            fetch('/process-fadedImage', {
+            fetch('/process_fadedImage', {
                 method: 'POST',
                 body: formData,
             })
@@ -74,6 +74,28 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    document.getElementById('scuff-btn').addEventListener('click', function() {
+        if (fileInput.files.length > 0) {
+            var file = fileInput.files[0];
+            var formData = new FormData();
+            formData.append('file', file);
 
+            fetch('/process_scuffImage', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.blob())
+            .then(blob => {
+                var imgURL = URL.createObjectURL(blob);
+                var imgElement = document.createElement('img');
+                imgElement.src = imgURL;
+                var container = document.getElementById('image-upload-container');
+                container.innerHTML = ''; // Clear previous content
+                container.appendChild(imgElement); // Display the processed image
+            });
+        } else {
+            console.log('No file selected');
+        }
+    });
 
 });
