@@ -18,7 +18,7 @@ def home():
     return render_template('index.html')
 
 
-@blue.route('/process-image', methods=['POST'])
+@blue.route('/process-fadedImage', methods=['POST'])
 def process_image():
     file = request.files['file']
     if not file:
@@ -33,8 +33,10 @@ def process_image():
     # Convert to grayscale
     gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
+    result_image = faded_image(image)
+
     # Convert back to bytes
-    _, buffer = cv2.imencode('.jpg', gray_image)
+    _, buffer = cv2.imencode('.jpg', result_image)
     out_memory_file = BytesIO(buffer)
     out_memory_file.seek(0)
 

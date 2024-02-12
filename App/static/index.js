@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var formData = new FormData();
             formData.append('file', file);
 
-            fetch('/process-image', {
+            fetch('/process-fadedImage', {
                 method: 'POST',
                 body: formData,
             })
@@ -73,4 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('No file selected');
         }
     });
+
+
+
 });
