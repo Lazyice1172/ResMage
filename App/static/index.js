@@ -1,4 +1,3 @@
-
 // Index UI
 document.addEventListener('DOMContentLoaded', function () {
     const fileInput = document.getElementById('file-input');
@@ -50,52 +49,83 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // Button Functions
-    document.getElementById('faded-btn').addEventListener('click', function() {
+    function upload_Image(string) {
         if (fileInput.files.length > 0) {
             var file = fileInput.files[0];
             var formData = new FormData();
             formData.append('file', file);
 
-            fetch('/process_fadedImage', {
+            fetch(string, {
                 method: 'POST',
                 body: formData,
             })
-            .then(response => response.blob())
-            .then(blob => {
-                var imgURL = URL.createObjectURL(blob);
-                var imgElement = document.createElement('img');
-                imgElement.src = imgURL;
-                var container = document.getElementById('image-upload-container');
-                container.innerHTML = ''; // Clear previous content
-                container.appendChild(imgElement); // Display the processed image
-            });
+                .then(response => response.blob())
+                .then(blob => {
+                    var imgURL = URL.createObjectURL(blob);
+                    var imgElement = document.createElement('img');
+                    imgElement.src = imgURL;
+                    var container = document.getElementById('image-upload-container');
+                    container.innerHTML = ''; // Clear previous content
+                    container.appendChild(imgElement); // Display the processed image
+                });
         } else {
             console.log('No file selected');
         }
+    }
+
+    // Faded Function
+    document.getElementById('faded-btn').addEventListener('click', function () {
+        upload_Image('/process_fadedImage');
+
+        // if (fileInput.files.length > 0) {
+        //     var file = fileInput.files[0];
+        //     var formData = new FormData();
+        //     formData.append('file', file);
+        //
+        //     fetch('/process_fadedImage', {
+        //         method: 'POST',
+        //         body: formData,
+        //     })
+        //     .then(response => response.blob())
+        //     .then(blob => {
+        //         var imgURL = URL.createObjectURL(blob);
+        //         var imgElement = document.createElement('img');
+        //         imgElement.src = imgURL;
+        //         var container = document.getElementById('image-upload-container');
+        //         container.innerHTML = ''; // Clear previous content
+        //         container.appendChild(imgElement); // Display the processed image
+        //     });
+        // } else {
+        //     console.log('No file selected');
+        // }
     });
 
-    document.getElementById('scuff-btn').addEventListener('click', function() {
-        if (fileInput.files.length > 0) {
-            var file = fileInput.files[0];
-            var formData = new FormData();
-            formData.append('file', file);
 
-            fetch('/process_scuffImage', {
-                method: 'POST',
-                body: formData,
-            })
-            .then(response => response.blob())
-            .then(blob => {
-                var imgURL = URL.createObjectURL(blob);
-                var imgElement = document.createElement('img');
-                imgElement.src = imgURL;
-                var container = document.getElementById('image-upload-container');
-                container.innerHTML = ''; // Clear previous content
-                container.appendChild(imgElement); // Display the processed image
-            });
-        } else {
-            console.log('No file selected');
-        }
+    // Scuff Functions
+    document.getElementById('scuff-btn').addEventListener('click', function () {
+        upload_Image('/process_scuffImage');
+
+        //     if (fileInput.files.length > 0) {
+        //         var file = fileInput.files[0];
+        //         var formData = new FormData();
+        //         formData.append('file', file);
+        //
+        //         fetch('/process_scuffImage', {
+        //             method: 'POST',
+        //             body: formData,
+        //         })
+        //         .then(response => response.blob())
+        //         .then(blob => {
+        //             var imgURL = URL.createObjectURL(blob);
+        //             var imgElement = document.createElement('img');
+        //             imgElement.src = imgURL;
+        //             var container = document.getElementById('image-upload-container');
+        //             container.innerHTML = ''; // Clear previous content
+        //             container.appendChild(imgElement); // Display the processed image
+        //         });
+        //     } else {
+        //         console.log('No file selected');
+        //     }
     });
 
 });
