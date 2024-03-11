@@ -79,6 +79,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     var container = document.getElementById('image-upload-container');
                     container.innerHTML = ''; // Clear previous content
                     container.appendChild(imgElement); // Display the processed image
+
+                    document.getElementById('download-buttons').style.display = 'block';
                 })
                 .catch(error => console.error('Error:', error));
         } else {
@@ -151,6 +153,28 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('grabcut_btn').addEventListener('click', function () {
         console.log("Testing");
 
+    });
+
+    // Download Image
+    document.getElementById('download-btn').addEventListener('click', function () {
+        var imgElement = document.querySelector('#image-upload-container img');
+        if (imgElement) {
+            // Create a temporary anchor tag to initiate download
+            var downloadLink = document.createElement('a');
+            downloadLink.href = imgElement.src; // Set the href to the image's URL
+            downloadLink.download = "downloadedImage.jpg"; // Set the default filename for the download
+
+            // Append to the body temporarily
+            document.body.appendChild(downloadLink);
+
+            // Trigger the download
+            downloadLink.click();
+
+            // Clean up by removing the temporary link
+            document.body.removeChild(downloadLink);
+        } else {
+            console.log('No image found to download');
+        }
     });
 
 });

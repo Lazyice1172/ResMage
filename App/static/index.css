@@ -58,8 +58,27 @@ body, html {
     background-color: #ddd; /* Slightly darker grey on hover */
 }
 
+.download-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0; /* Adds spacing between buttons */
+    background-color: #f0f0f0; /* Light grey, adjust as needed */
+    border: 1px solid #ddd; /* Slight border, adjust as needed */
+    cursor: pointer;
+    text-align: center; /* Centers text within each button */
+}
+
+.download-btn:hover {
+    background-color: #ddd; /* Slightly darker grey on hover */
+}
+
 #filter-buttons {
     display: none; /* Hide buttons initially */
+}
+
+#download-buttons {
+    display: none;
 }
 
 /* Github Link */
