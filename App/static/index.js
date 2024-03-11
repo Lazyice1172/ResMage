@@ -128,4 +128,9 @@ document.addEventListener('DOMContentLoaded', function () {
         //     }
     });
 
+    // // Spot Function
+    document.getElementById('spot-btn').addEventListener('click', function () {
+        upload_Image('/process_spotImage');
+    });
+
 });
