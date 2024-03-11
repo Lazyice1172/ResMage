@@ -61,13 +61,26 @@ document.addEventListener('DOMContentLoaded', function () {
             })
                 .then(response => response.blob())
                 .then(blob => {
-                    var imgURL = URL.createObjectURL(blob);
+                    // Convert blob to File object
+                    var newFile = new File([blob], file.name, {
+                        type: blob.type,
+                        lastModified: new Date().getTime(),
+                    });
+
+                    // Update the fileInput with the new file
+                    var dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(newFile);
+                    fileInput.files = dataTransfer.files;
+
+                    // Display the processed image
+                    var imgURL = URL.createObjectURL(newFile);
                     var imgElement = document.createElement('img');
                     imgElement.src = imgURL;
                     var container = document.getElementById('image-upload-container');
                     container.innerHTML = ''; // Clear previous content
                     container.appendChild(imgElement); // Display the processed image
-                });
+                })
+                .catch(error => console.error('Error:', error));
         } else {
             console.log('No file selected');
         }
@@ -128,9 +141,16 @@ document.addEventListener('DOMContentLoaded', function () {
         //     }
     });
 
-    // // Spot Function
+    // Spot Function
     document.getElementById('spot-btn').addEventListener('click', function () {
         upload_Image('/process_spotImage');
+    });
+
+
+    // Spot Function
+    document.getElementById('grabcut_btn').addEventListener('click', function () {
+        console.log("Testing");
+
     });
 
 });
