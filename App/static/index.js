@@ -3,6 +3,20 @@ document.addEventListener('DOMContentLoaded', function () {
     const fileInput = document.getElementById('file-input');
     const dropZone = document.getElementById('drop-zone');
 
+    // const container = document.getElementById('image-upload-container');
+    const wrapper = document.getElementById('wrapper');
+    // const rect = document.getElementById('rectangle');
+    // var img = document.createElement("img");
+
+    var rect = document.createElement("div");
+    rect.id = "rectangle";
+    rect.className = "rectangle";
+
+
+    let dragEnabled = true;
+    let startX, startY, draw = false;
+
+
     dropZone.addEventListener('click', function () {
         fileInput.click();
     });
@@ -31,8 +45,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         var img = document.createElement("img");
+        img.id = "image-container"
         img.classList.add("obj", "img-uploaded");
         img.file = file;
+
+        // var rect = document.createElement("div");
+        // rect.id = "rectangle";
+        // rect.className = "rectangle";
+
 
         var reader = new FileReader();
         reader.onload = function (e) {
@@ -41,12 +61,90 @@ document.addEventListener('DOMContentLoaded', function () {
             var uploadContainer = document.getElementById('image-upload-container');
             uploadContainer.innerHTML = '';
             uploadContainer.appendChild(img);
+            uploadContainer.appendChild(rect);
+
+            var imgContainer = document.getElementById("image-container");
+
+            enableRectangleDrawing(imgContainer);
+
 
             document.getElementById('filter-buttons').style.display = 'block';
+            // document.getElementById('image-upload-container').style.userSelect = 'none';
+            // document.getElementById('image-upload-container').style.pointerEvents = 'none';
         };
         reader.readAsDataURL(file);
     }
 
+    // Drag button
+    document.getElementById('grabcut-btn').addEventListener('click', function () {
+        dragEnabled = !dragEnabled;
+        this.textContent = dragEnabled ? 'GrabCut : OFF' : 'GrabCut : ON';
+    });
+
+    // Drag Function
+
+    function enableRectangleDrawing(imgContainer) {
+
+        imgContainer.onmousedown = (e) => {
+            if (dragEnabled) return; // Skip if drag is enabled
+
+            e.preventDefault();
+            startX = Math.round(e.clientX);
+            startY = Math.round(e.clientY);
+
+            rect.style.width = '0px';
+            rect.style.height = '0px';
+            rect.style.left = startX + 'px';
+            rect.style.top = startY + 'px';
+            draw = true;
+        };
+
+        imgContainer.onmousemove = (e) => {
+            if (!draw || dragEnabled) return;
+            e.preventDefault();
+
+            let endX = Math.round(e.clientX);
+            let endY = Math.round(e.clientY);
+
+            // Ensure the rectangle stays within the image bounds
+            // endX = Math.max(0, Math.min(img.offsetWidth, endX));
+            // endY = Math.max(0, Math.min(img.offsetHeight, endY));
+
+            let width = Math.abs(endX - startX);
+            let height = Math.abs(endY - startY);
+
+            // Adjust the position and size based on direction of drawing
+            let newStartX = (endX < startX) ? endX : startX;
+            let newStartY = (endY < startY) ? endY : startY;
+
+            rect.style.width = `${width}px`;
+            rect.style.height = `${height}px`;
+            rect.style.left = `${newStartX}px`;
+            rect.style.top = `${newStartY}px`;
+        };
+
+        imgContainer.onmouseup = () => {
+            if (!draw || dragEnabled) return;
+            draw = false;
+
+            let finalEndX = Math.round(rect.style.left.replace('px', '') - imgContainer.getBoundingClientRect().left);
+            let finalEndY = Math.round(rect.style.top.replace('px', '') - imgContainer.getBoundingClientRect().top);
+
+            let finalWidth = Math.round(rect.style.width.replace('px', ''));
+            let finalHeight = Math.round(rect.style.height.replace('px', ''));
+
+            // Calculate and adjust final start and end points
+            let adjustedStartX = finalEndX;
+            let adjustedStartY = finalEndY;
+            let adjustedEndX = adjustedStartX + finalWidth;
+            let adjustedEndY = adjustedStartY + finalHeight;
+
+            console.log(`StartX: ${adjustedStartX}, StartY: ${adjustedStartY}, EndX: ${adjustedEndX}, EndY: ${adjustedEndY}`);
+        };
+    }
+
+    // // Initially, allow rectangle drawing
+    // enableRectangleDrawing();
 
     // Button Functions
     function upload_Image(string) {
@@ -75,10 +173,16 @@ document.addEventListener('DOMContentLoaded', function () {
                     // Display the processed image
                     var imgURL = URL.createObjectURL(newFile);
                     var imgElement = document.createElement('img');
+                    imgElement.id = "image-container";
                     imgElement.src = imgURL;
                     var container = document.getElementById('image-upload-container');
                     container.innerHTML = ''; // Clear previous content
                     container.appendChild(imgElement); // Display the processed image
+                    container.appendChild(rect)
+
+                    var imgContainer = document.getElementById("image-container");
+
+                    enableRectangleDrawing(imgContainer);
 
                     document.getElementById('download-buttons').style.display = 'block';
                 })
@@ -150,10 +254,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // Spot Function
-    document.getElementById('grabcut_btn').addEventListener('click', function () {
-        console.log("Testing");
-
-    });
+    // document.getElementById('grabcut-btn').addEventListener('click', function () {
+    //     console.log("Testing");
+    //
+    // });
 
     // Download Image
     document.getElementById('download-btn').addEventListener('click', function () {
@@ -176,5 +280,6 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('No image found to download');
         }
     });
+
 
 });

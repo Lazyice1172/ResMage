@@ -136,8 +136,17 @@ body, html {
     max-width: 100%;
     max-height: 100%;
     /*height: auto;*/
-    margin-top: 20px;
+    /*margin-top: 20px;*/
+    position: relative;
+    display: inline-block; /* Ensures the container fits around the image */
+
 }
 
+.rectangle {
+    border: 2px dashed #FF0000; /* Style of the rectangle border */
+    position: absolute;
+    pointer-events: none; /* Prevents the rectangle from capturing mouse events */
+    z-index: 1;
+}
 
 
