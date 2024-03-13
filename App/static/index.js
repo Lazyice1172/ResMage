@@ -96,6 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
             rect.style.height = '0px';
             rect.style.left = startX + 'px';
             rect.style.top = startY + 'px';
+            rect.style.display = "block";
             draw = true;
         };
 
@@ -139,7 +140,12 @@ document.addEventListener('DOMContentLoaded', function () {
             let adjustedEndX = adjustedStartX + finalWidth;
             let adjustedEndY = adjustedStartY + finalHeight;
 
-            console.log(`StartX: ${adjustedStartX}, StartY: ${adjustedStartY}, EndX: ${adjustedEndX}, EndY: ${adjustedEndY}`);
+            rect.style.display = "none";
+
+            // console.log(`StartX: ${adjustedStartX}, StartY: ${adjustedStartY}, Width: ${finalWidth}, Height: ${finalHeight}`);
+
+            grabCut(adjustedStartX, adjustedStartY, finalWidth, finalHeight);
+
         };
     }
 
@@ -253,11 +259,56 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
-    // Spot Function
-    // document.getElementById('grabcut-btn').addEventListener('click', function () {
-    //     console.log("Testing");
-    //
-    // });
+    // GrabCut Function
+    function grabCut(startX, startY, width, height) {
+
+        if (fileInput.files.length > 0) {
+            var file = fileInput.files[0];
+            var formData = new FormData();
+            formData.append('file', file);
+            formData.append('startX', startX);
+            formData.append('startY', startY);
+            formData.append('width', width);
+            formData.append('height', height);
+
+            fetch("/process_grabCutImage", {
+                method: 'POST',
+                body: formData,
+            })
+                .then(response => response.blob())
+                .then(blob => {
+                    // Convert blob to File object
+                    var newFile = new File([blob], file.name, {
+                        type: blob.type,
+                        lastModified: new Date().getTime(),
+                    });
+
+                    // Update the fileInput with the new file
+                    var dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(newFile);
+                    fileInput.files = dataTransfer.files;
+
+                    // Display the processed image
+                    var imgURL = URL.createObjectURL(newFile);
+                    var imgElement = document.createElement('img');
+                    imgElement.id = "image-container";
+                    imgElement.src = imgURL;
+                    var container = document.getElementById('image-upload-container');
+                    container.innerHTML = ''; // Clear previous content
+                    container.appendChild(imgElement); // Display the processed image
+                    container.appendChild(rect)
+
+                    var imgContainer = document.getElementById("image-container");
+
+                    enableRectangleDrawing(imgContainer);
+
+                    document.getElementById('download-buttons').style.display = 'block';
+                })
+                .catch(error => console.error('Error:', error));
+        } else {
+            console.log('No file selected');
+        }
+    }
 
     // Download Image
     document.getElementById('download-btn').addEventListener('click', function () {
