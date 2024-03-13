@@ -134,6 +134,9 @@ document.addEventListener('DOMContentLoaded', function () {
             let finalWidth = Math.round(rect.style.width.replace('px', ''));
             let finalHeight = Math.round(rect.style.height.replace('px', ''));
 
+            if (finalWidth < 1) finalWidth = 1;
+            if (finalHeight < 1) finalHeight = 1;
+
             // Calculate and adjust final start and end points
             let adjustedStartX = finalEndX;
             let adjustedStartY = finalEndY;
