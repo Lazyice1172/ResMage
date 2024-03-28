@@ -2,7 +2,6 @@
 # Create Flask Application
 
 from flask import Flask, render_template
-from flask_cors import CORS  # Import CORS if you're dealing with CORS issues
 
 from .views import blue
 
