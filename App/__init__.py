@@ -2,7 +2,6 @@
 # Create Flask Application
 
 from flask import Flask, render_template
-
 from .views import blue
 
 def create_app():

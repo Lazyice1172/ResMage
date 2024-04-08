@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+
     dropZone.addEventListener('dragover', function (event) {
         event.preventDefault();
     });
@@ -34,8 +35,10 @@ document.addEventListener('DOMContentLoaded', function () {
     dropZone.addEventListener('drop', function (event) {
         event.preventDefault();
         if (event.dataTransfer.files.length) {
-            handleFile(event.dataTransfer.files[0]);
-        }
+        const droppedFile = event.dataTransfer.files[0];
+        fileInput.files = event.dataTransfer.files;
+        fileInput.dispatchEvent(new Event('change')); // Trigger change event
+    }
     });
 
     function handleFile(file) {

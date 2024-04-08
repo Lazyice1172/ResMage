@@ -5,19 +5,14 @@ from scipy.spatial import distance
 
 def spot_image(I: np.ndarray) -> np.ndarray:
     # Read the original image
-    # original_image = cv2.imread('./Images/stain1.jpg')
     original_image = I.copy()
     image = I.copy()  # Make a copy to work with
-
     # Convert the image to grayscale
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
     # Apply Gaussian blur
     blurred = cv2.GaussianBlur(gray, (5, 5), 0)
-
     # Perform Canny edge detection
     edges = cv2.Canny(blurred, 50, 150)
-
     # Dilate the edges
     kernel = np.ones((5, 5), np.uint8)
     dilated_edges = cv2.dilate(edges, kernel, iterations=1)

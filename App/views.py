@@ -36,7 +36,7 @@ def process_fadedImage():
     restore_fadedImage = faded_image(image)
 
     # Convert back to bytes
-    _, buffer = cv2.imencode('.jpg', restore_fadedImage)
+    _, buffer = cv2.imencode('.png', restore_fadedImage)
     out_memory_file = BytesIO(buffer)
     out_memory_file.seek(0)
 
@@ -58,7 +58,7 @@ def process_scuffImage():
     restore_scuffImage = scuff_image(image)
 
     # Convert back to bytes
-    _, buffer = cv2.imencode('.jpg', restore_scuffImage)
+    _, buffer = cv2.imencode('.png', restore_scuffImage)
     out_memory_file = BytesIO(buffer)
     out_memory_file.seek(0)
 
@@ -80,7 +80,7 @@ def process_spotsImage():
     restore_scuffImage = spot_image(image)
 
     # Convert back to bytes
-    _, buffer = cv2.imencode('.jpg', restore_scuffImage)
+    _, buffer = cv2.imencode('.png', restore_scuffImage)
     out_memory_file = BytesIO(buffer)
     out_memory_file.seek(0)
 
@@ -111,7 +111,7 @@ def process_grabCutImage():
     # test
 
     # Convert back to bytes
-    _, buffer = cv2.imencode('.jpg', restore_scuffImage)
+    _, buffer = cv2.imencode('.png', restore_scuffImage)
     out_memory_file = BytesIO(buffer)
     out_memory_file.seek(0)
 
